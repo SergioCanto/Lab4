@@ -1,0 +1,57 @@
+        .data
+        .balign 4	
+prompt1: .asciz  "Give me the first Operand: "
+prompt2: .asciz  "Give me the second Operand: "
+format: .asciz  "%d"
+num:    .int    0
+num2:    .int    0
+output: .asciz  "your input: %d\n"
+string: .asciz "\na + b = %d\n"
+b:      .word 44
+c:      .word 0       
+
+.text
+.global main
+.extern printf
+.extern scanf
+
+main:   
+		push    {ip, lr}
+        ldr     r0, =prompt1
+        bl      printf
+
+        ldr     r0, =format
+        ldr     r1, =num
+        bl      scanf
+
+        Ldr     r1, =num
+        Ldr     r1, [r1]
+        ldr     r0, =output
+        bl      printf
+        @second Operand
+        ldr     r0, =prompt2
+        bl      printf
+
+        ldr     r0, =format
+        ldr     r1, =num2
+        bl      scanf
+
+        Ldr     r1, =num2
+        Ldr     r1, [r1]
+        ldr     r0, =output
+        bl      printf
+        
+        ldr    r1, =num
+        ldr    r1, [r1]
+        ldr    r2, =num2
+        ldr    r2, [r2]
+        add    r1, r1, r2
+        ldr    r2, =c
+        str    r1, [r2]
+
+        ldr    r0, =string
+        ldr    r1, [r2]
+        bl     printf
+        
+        
+        pop     {ip, pc}
